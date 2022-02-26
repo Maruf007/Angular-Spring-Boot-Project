@@ -1,0 +1,17 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DashboardPropertyRoutingModule } from './property.routing';
+import { DashboardPropertyComponent } from './property.component';
+import { AppCommonModule } from 'src/app//app.common.module';
+import { HeaderBreadCrumbModule } from 'src/app/shared/layout/header-breadcrumb/header-breadcrumb.module';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    DashboardPropertyRoutingModule,
+    AppCommonModule,
+    HeaderBreadCrumbModule
+  ],
+  declarations: [DashboardPropertyComponent]
+})
+export class DashboardPropertyModule { }

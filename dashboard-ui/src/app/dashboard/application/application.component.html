@@ -1,0 +1,125 @@
+<app-header-breadcrumb></app-header-breadcrumb>
+<p-panel header="{{applicationDashboarCaption}}">
+    <div class="row">
+        <div class="col-12">
+            <i class="fas fa-plus add-button" style="float: right;"></i>
+            <button type="button" pButton label="{{updateUserBtn}}" style="float: right;margin-bottom: 0.4rem;" (click)="gotoProfile()"></button>
+
+        </div>
+    </div>
+    <p-table [value]="applications" [responsive]="true" styleClass="p-datatable-striped">
+        <ng-template pTemplate="caption">
+            {{applicationsCaption}}
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="name">{{bffApplicatonCaption}}
+                    <p-sortIcon field="name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="type">{{typeCaption}}
+                    <p-sortIcon field="type"></p-sortIcon>
+                </th>
+                <th pSortableColumn="client">{{clientsCaption}}
+                    <p-sortIcon field="client"></p-sortIcon>
+                </th>
+                <th pSortableColumn="createDate">{{createdAtCaption}}
+                    <p-sortIcon field="createDate"></p-sortIcon>
+                </th>
+                <th pSortableColumn="updateDate">{{updatedOnCaption}}
+                    <p-sortIcon field="updateDate"></p-sortIcon>
+                </th>
+                <th>{{actionCaption}}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-application>
+            <tr>
+                <td>
+                    <div class="responsive-column-heading"><b>{{bffApplicatonCaption}}</b></div>{{application.name}}</td>
+                <td>
+                    <div class="responsive-column-heading"><b>{{typeCaption}}</b></div>{{application.type}}</td>
+                <td>
+                    <div class="responsive-column-heading"><b>{{clientsCaption}}</b></div>{{application.client}}</td>
+                <td>
+                    <div class="responsive-column-heading"><b>{{createdAtCaption}}</b></div>{{application.createDate}}</td>
+                <td>
+                    <div class="responsive-column-heading"><b>{{updatedOnCaption}}</b></div>{{application.updateDate}}</td>
+                <td><a class="text-button">{{deleteBtn}}</a><a (click)="gotoDashboardApi(application)" class="text-button">{{viewBtn}}</a></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6" style="text-align: center;">{{noDataFoundCaption}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <div style="height: 1rem;"></div>
+
+    <p-table [value]="pendingRequests" dataKey="apiName" [responsive]="true" styleClass="p-datatable-striped">
+        <ng-template pTemplate="caption">
+            {{pendingRequestsCaption}}
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 4rem" class="col-width-full"></th>
+                <th style="width: 30%;" class="col-width-full">{{applicationNameCaption}}</th>
+                <th>{{apiCaption}}</th>
+                <th>{{stateCaption}}</th>
+                <th>{{actionCaption}}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-pendingRequest let-expanded="expanded">
+            <tr>
+                <td class="col-width-full">
+                    <button type="button" pButton pRipple [pRowToggler]="pendingRequest" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                </td>
+                <td style="width: 30%;" class="col-width-full">
+                    <div class="responsive-column-heading"><b>{{applicationNameCaption}}</b></div>{{pendingRequest.appName}}</td>
+                <td>
+                    <div class="responsive-column-heading"><b>{{apiCaption}}</b></div>{{pendingRequest.apiName}}</td>
+                <td>
+                    <div class="responsive-column-heading"><b>{{stateCaption}}</b></div>{{pendingRequest.state}}</td>
+                <td>
+                    <a *ngIf="pendingRequest.state == inReview" (click)="approveRequest(pendingRequest.state)" class="text-button">{{devApproveBtn}}</a>
+                    <a *ngIf="pendingRequest.state == inQAVarify" (click)="approveRequest(pendingRequest.state)" class="text-button">{{qaApproveBtn}}</a>
+                    <a *ngIf="pendingRequest.state == inQAApprove" (click)="approveRequest(pendingRequest.state)" class="text-button">{{pushToPerfBtn}}</a>
+                    <a *ngIf="pendingRequest.state == inPref" (click)="approveRequest(pendingRequest.state)" class="text-button">{{pushToPreProdBtn}}</a>
+                    <a *ngIf="pendingRequest.state == inPreProd" (click)="approveRequest(pendingRequest.state)" class="text-button">{{pushToProdBtn}}</a>
+                    <a *ngIf="pendingRequest.state == inProd" class="text-button">Completed</a>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-pendingRequest>
+            <tr>
+                <td colspan="5">
+                    <div class="p-p-3">
+                        <p-table [value]="pendingRequest.pendingRequestDetailsList" dataKey="id" [responsive]="true" styleClass="p-datatable-striped">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 60%;" class="col-width-full">{{propertyNameCaption}}</th>
+                                    <th style="width: 20%;" class="col-width-full">{{originalValueCaption}}</th>
+                                    <th style="width: 20%;" class="col-width-full">{{updatedValueCaption}}</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-property>
+                                <tr>
+                                    <td style="width: 60%;" class="col-width-full">
+                                        <div class="responsive-column-heading"><b>{{propertyNameCaption}}</b></div>{{property.propertyName}}</td>
+                                    <td style="width: 20%;" class="col-width-full">
+                                        <div class="responsive-column-heading"><b>{{originalValueCaption}}</b></div>{{property.originalValue}}</td>
+                                    <td style="width: 20%;" class="col-width-full">
+                                        <div class="responsive-column-heading"><b>{{updatedValueCaption}}</b></div>{{property.updatedValue}}</td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="3" style="text-align: center;">{{noDataFoundCaption}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>

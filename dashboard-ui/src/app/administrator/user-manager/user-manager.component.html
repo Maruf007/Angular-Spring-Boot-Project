@@ -1,0 +1,41 @@
+<app-header-breadcrumb></app-header-breadcrumb>
+<p-panel header="{{updateUserRoleCaption}}">
+    <p-table class="table table-striped" [responsive]="true" [value]="users" styleClass="p-datatable-striped">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 50%;">{{userCaption}}</th>
+                <th style="width: 25%;">{{roleCaption}}</th>
+                <th style="width: 25%;">{{actionCaption}}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td style="width: 50%;">
+                    <div class="responsive-column-heading"><b>{{userCaption}}</b></div>
+                    {{user.fullName}}
+                </td>
+                <td style="width: 25%;">
+                    <div class="responsive-column-heading"><b>{{roleCaption}}</b></div>
+                    {{user.role}}
+                </td>
+                <td style="width: 25%;">
+                    <div class="responsive-column-heading"><b>{{actionCaption}}</b></div>
+                    <p-dropdown autoWidth="false" [style]="{'width':'100%'}" placeholder="Select Role" [options]="roleDropdown" [(ngModel)]="user.newRole"></p-dropdown>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="3" style="text-align: center;">{{noDataFoundCaption}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <div class="row">
+        <div class="col-12" style="padding: 5px !important;">
+            <button style="float: right;  margin-right: 7px;" pButton type="button" label="{{updateBtn}}"></button>
+            <span style="padding: 2px; float: right;"></span>
+            <button style="float: right;" pButton type="button" label="{{cancelBtn}}" (click)="cancelChanges()"></button>
+        </div>
+    </div>
+</p-panel>

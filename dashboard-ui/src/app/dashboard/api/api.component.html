@@ -1,0 +1,117 @@
+<app-header-breadcrumb></app-header-breadcrumb>
+<p-panel header="{{apiListDashboardCaption}}">
+
+    <table class="table table-striped">
+        <caption>{{appDetailsCaption}}</caption>
+        <thead>
+            <tr>
+                <th style="width: 20%;">{{propertyCaption}}</th>
+                <th style="width: 70%;">{{valueCaption}}</th>
+                <th style="width: 10%;">{{actionCaption}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{applicationNameCaption}}</td>
+                <td>
+                    <span *ngIf="!isEditAppName">{{application.name}}</span>
+                    <input *ngIf="isEditAppName" class="width-100-percent" type="text" pInputText [(ngModel)]="application.name" />
+                </td>
+                <td>
+                    <a *ngIf="!isEditAppName" class="text-button" (click)="isEditAppName = true">{{editBtn}}</a>
+                    <a *ngIf="isEditAppName" class="text-button" (click)="isEditAppName = false">{{saveBtn}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>{{clientCaption}}</td>
+                <td>
+                    <span *ngIf="!isEditClient">{{application.client}}</span>
+                    <input *ngIf="isEditClient" class="width-100-percent" type="text" pInputText [(ngModel)]="application.client" />
+                </td>
+                <td>
+                    <a *ngIf="!isEditClient" class="text-button" (click)="isEditClient = true">{{editBtn}}</a>
+                    <a *ngIf="isEditClient" class="text-button" (click)="isEditClient = false">{{saveBtn}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>{{typeCaption}}</td>
+                <td>
+                    <span *ngIf="!isEditType">{{application.type}}</span>
+                    <input *ngIf="isEditType" class="width-100-percent" type="text" pInputText [(ngModel)]="application.type" />
+                </td>
+                <td>
+                    <a *ngIf="!isEditType" class="text-button" (click)="isEditType = true">{{editBtn}}</a>
+                    <a *ngIf="isEditType" class="text-button" (click)="isEditType = false">{{saveBtn}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>{{createdOnCaption}}</td>
+                <td>
+                    <span *ngIf="!isEditCreateDate">{{application.createDate}}</span>
+                    <p-calendar *ngIf="isEditCreateDate" dateFormat="yy-mm-dd" [(ngModel)]="application.createDate"></p-calendar>
+                </td>
+                <td>
+                    <a *ngIf="!isEditCreateDate" class="text-button" (click)="isEditCreateDate = true">{{editBtn}}</a>
+                    <a *ngIf="isEditCreateDate" class="text-button" (click)="isEditCreateDate = false">{{saveBtn}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>{{repoUrlCaption}}</td>
+                <td>
+                    <span *ngIf="!isEditRepoUrl">{{application.repoUrl}}</span>
+                    <input *ngIf="isEditRepoUrl" class="width-100-percent" type="text" pInputText [(ngModel)]="application.repoUrl" />
+                </td>
+                <td>
+                    <a *ngIf="!isEditRepoUrl" class="text-button" (click)="isEditRepoUrl = true">{{editBtn}}</a>
+                    <a *ngIf="isEditRepoUrl" class="text-button" (click)="isEditRepoUrl = false">{{saveBtn}}</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p-table [value]="application.apiList" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [responsive]="true" styleClass="p-datatable-striped">
+        <ng-template pTemplate="caption">
+            {{apiListCaption}}
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>{{apiNameCaption}}</th>
+                <th>{{clientsCaption}}</th>
+                <th>{{statusCaption}}</th>
+                <th>{{onOffCaption}}</th>
+                <th>{{actionCaption}}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-api>
+            <tr>
+                <td>
+                    <div class="responsive-column-heading"><b>{{apiNameCaption}}</b></div>{{api.name}}</td>
+                <td>
+                    <div class="responsive-column-heading"><b>{{clientsCaption}}</b></div>{{api.client}}</td>
+                <td>
+                    <div class="responsive-column-heading"><b>{{statusCaption}}</b></div>
+                    <span *ngIf="api.status">Active</span>
+                    <span *ngIf="!api.status">Inactive</span>
+                </td>
+                <td>
+                    <div class="responsive-column-heading"><b>{{onOffCaption}}</b></div>
+                    <p-inputSwitch [(ngModel)]="api.onOff"></p-inputSwitch>
+                </td>
+                <td><a class="text-button" (click)="gotoApiDetails(api)">{{viewBtn}}</a></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5" style="text-align: center;">{{noDataFoundCaption}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <div class="row">
+        <div class="col-12" style="padding: 5px !important;">
+            <button style="float: right;  margin-right: 7px;" pButton type="button" label="{{saveChangesBtn}}"></button>
+            <span style="padding: 2px; float: right;"></span>
+            <button style="float: right;" pButton type="button" label="{{cancelBtn}}" (click)="cancelChanges()"></button>
+        </div>
+    </div>
+</p-panel>

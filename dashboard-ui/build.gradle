@@ -1,0 +1,17 @@
+plugins {
+  id 'java'
+  id("com.github.node-gradle.node") version "2.2.0"
+}
+
+node {
+  version = '12.14.0'
+  npmVersion = '6.14.10'
+  download = true
+}
+
+jar.dependsOn 'npm_run_build'
+
+jar {
+  from 'dist/dashboard-ui' into 'static'
+}
+

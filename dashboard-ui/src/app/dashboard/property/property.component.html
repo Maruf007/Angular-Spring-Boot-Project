@@ -1,0 +1,218 @@
+<app-header-breadcrumb></app-header-breadcrumb>
+<p-panel header="{{apiDashboard}}">
+    <p-table [value]="api.propertyList" [responsive]="true" styleClass="p-datatable-striped">
+        <ng-template pTemplate="caption">
+            {{apiPropertiesCaption}}
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 60%;" class="col-width-full">{{propertyNameCaption}}</th>
+                <th style="width: 30%;" class="col-width-full">{{valueCaption}}</th>
+                <th style="width: 6rem;" class="col-width-full">{{actionCaption}}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-property>
+            <tr>
+                <td style="width: 60%;" class="col-width-full">
+                    <div class="responsive-column-heading"><b>{{propertyNameCaption}}</b></div>
+                    {{property.name}}
+                </td>
+                <td style="width: 30%;" class="col-width-full">
+                    <div class="responsive-column-heading"><b>{{valueCaption}}</b></div>
+                    <span *ngIf="!property.isEdit">{{property.value}}</span>
+                    <input *ngIf="property.isEdit" class="width-100-percent" type="text" pInputText [(ngModel)]="property.value" />
+                </td>
+                <td style="width: 6rem;" class="col-width-full">
+                    <a *ngIf="!property.isEdit" class="text-button" (click)="property.isEdit = true">{{editBtn}}</a>
+                    <a *ngIf="property.isEdit" class="text-button" (click)="property.isEdit = false">{{saveBtn}}</a>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="3" style="text-align: center;">{{noDataFoundCaption}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <div style="height: 1rem;"></div>
+
+    <p-table [value]="api.featureList" dataKey="name" [responsive]="true" styleClass="p-datatable-striped">
+        <ng-template pTemplate="caption">
+            {{featuresCaption}}
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem" class="col-width-full"></th>
+                <th style="width: 60%;" class="col-width-full" pSortableColumn="name">{{featureCaption}}
+                    <p-sortIcon field="name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="status">{{statusCaption}}
+                    <p-sortIcon field="status"></p-sortIcon>
+                </th>
+                <th pSortableColumn="onOff">{{onOffCaption}}
+                    <p-sortIcon field="onOff"></p-sortIcon>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-feature let-expanded="expanded">
+            <tr>
+                <td class="col-width-full">
+                    <button type="button" pButton pRipple [pRowToggler]="feature" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                </td>
+                <td style="width: 60%;" class="col-width-full">
+                    <div class="responsive-column-heading"><b>{{featureCaption}}</b></div>
+                    {{feature.name}}
+                </td>
+
+                <td>
+                    <div class="responsive-column-heading"><b>{{statusCaption}}</b></div>
+                    {{feature.status ? 'Active' : 'Inactive'}}
+                </td>
+                <td>
+                    <div class="responsive-column-heading"><b>{{onOffCaption}}</b></div>
+                    <p-inputSwitch [(ngModel)]="feature.onOff"></p-inputSwitch>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-feature>
+            <tr>
+                <td colspan="4">
+                    <div class="p-p-3">
+                        <p-table [value]="feature.properties" dataKey="id" [responsive]="true" styleClass="p-datatable-striped">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 60%;" class="col-width-full">{{propertyNameCaption}}</th>
+                                    <th style="width: 30%;" class="col-width-full">{{valueCaption}}</th>
+                                    <th style="width: 6rem;" class="col-width-full">{{actionCaption}}</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-property>
+                                <tr>
+                                    <td style="width: 60%;" class="col-width-full">
+                                        <div class="responsive-column-heading"><b>{{propertyNameCaption}}</b></div>
+                                        {{property.name}}
+                                    </td>
+                                    <td style="width: 30%;" class="col-width-full">
+                                        <div class="responsive-column-heading"><b>{{valueCaption}}</b></div>
+                                        <span *ngIf="!property.isEdit">{{property.value}}</span>
+                                        <input *ngIf="property.isEdit" class="width-100-percent" type="text" pInputText [(ngModel)]="property.value" />
+                                    </td>
+                                    <td style="width: 6rem;" class="col-width-full">
+                                        <a *ngIf="!property.isEdit" class="text-button" (click)="property.isEdit = true">{{editBtn}}</a>
+                                        <a *ngIf="property.isEdit" class="text-button" (click)="property.isEdit = false">{{saveBtn}}</a>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="3" style="text-align: center;">{{noDataFoundCaption}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="4">
+                    <div class="p-p-3">
+                        <p-table [value]="feature.subFeatures" dataKey="id" [responsive]="true" styleClass="p-datatable-striped">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 3rem" class="col-width-full"></th>
+                                    <th style="width: 60%;" class="col-width-full" pSortableColumn="name">{{featureCaption}}
+                                        <p-sortIcon field="name"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="status">{{statusCaption}}
+                                        <p-sortIcon field="status"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="onOff">{{onOffCaption}}
+                                        <p-sortIcon field="onOff"></p-sortIcon>
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-subFeature let-expanded="expanded">
+                                <tr>
+                                    <td class="col-width-full">
+                                        <button type="button" pButton pRipple [pRowToggler]="subFeature" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                                    </td>
+                                    <td style="width: 60%;" class="col-width-full">
+                                        <div class="responsive-column-heading"><b>{{featureCaption}}</b></div>
+                                        {{subFeature.name}}
+                                    </td>
+                                    <td>
+                                        <div class="responsive-column-heading"><b>{{statusCaption}}</b></div>
+                                        {{subFeature.status ? 'Active' : 'Inactive'}}
+                                    </td>
+                                    <td>
+                                        <div class="responsive-column-heading"><b>{{onOffCaption}}</b></div>
+                                        <p-inputSwitch [(ngModel)]="subFeature.onOff"></p-inputSwitch>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="rowexpansion" let-subFeature>
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="p-p-3">
+                                            <p-table [value]="subFeature.properties" [responsive]="true" dataKey="id" styleClass="p-datatable-striped">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th style="width: 60%;" class="col-width-full">{{propertyNameCaption}}</th>
+                                                        <th style="width: 30%;" class="col-width-full">{{valueCaption}}</th>
+                                                        <th style="width: 6rem;" class="col-width-full">{{actionCaption}}</th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-property>
+                                                    <tr>
+                                                        <td style="width: 60%;" class="col-width-full">
+                                                            <div class="responsive-column-heading"><b>{{propertyNameCaption}}</b></div>
+                                                            {{property.name}}
+                                                        </td>
+                                                        <td style="width: 30%;" class="col-width-full">
+                                                            <div class="responsive-column-heading"><b>{{valueCaption}}</b></div>
+                                                            <span *ngIf="!property.isEdit">{{property.value}}</span>
+                                                            <input *ngIf="property.isEdit" class="width-100-percent" type="text" pInputText [(ngModel)]="property.value" />
+                                                        </td>
+                                                        <td style="width: 6rem;" class="col-width-full">
+                                                            <a *ngIf="!property.isEdit" class="text-button" (click)="property.isEdit = true">{{editBtn}}</a>
+                                                            <a *ngIf="property.isEdit" class="text-button" (click)="property.isEdit = false">{{saveBtn}}</a>
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="emptymessage">
+                                                    <tr>
+                                                        <td colspan="3" style="text-align: center;">{{noDataFoundCaption}}</td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="4" style="text-align: center;">{{noDataFoundCaption}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4" style="text-align: center;">{{noDataFoundCaption}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <div class="row">
+        <div class="col-12" style="padding: 5px !important;">
+            <button style="float: right;  margin-right: 7px;" pButton type="button" label="{{saveChangesBtn}}"></button>
+            <span style="padding: 2px; float: right;"></span>
+            <button style="float: right;" pButton type="button" label="{{cancelBtn}}" (click)="cancelChanges()"></button>
+        </div>
+    </div>
+
+</p-panel>
